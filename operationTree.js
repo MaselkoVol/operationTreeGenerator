@@ -127,17 +127,42 @@ class OperationTree {
 			}
 			if (current.left != null) {
 				if (current.left.right != null) {
-					current.leftLength = current.left.right.leftLength + current.left.right.rightLength + 2;
+					let leftTotalLength = 0;
+					let subCurrent = current.left.right;
+					while (subCurrent.left != null) {
+						leftTotalLength += subCurrent.leftLength;
+						subCurrent = subCurrent.left;
+					}
+					subCurrent = current.left.right;
+					while (subCurrent.right != null) {
+						leftTotalLength += subCurrent.rightLength;
+						subCurrent = subCurrent.right;
+					}
+					current.leftLength = leftTotalLength + 2;
 				} else {
 					current.leftLength = current.left.rightLength + 1;
 				}
 			}
 			if (current.right != null) {
 				if (current.right.left != null) {
-					current.rightLength = current.right.left.leftLength + current.right.left.rightLength + 2;
+					let rightTotalLength = 0;
+					let subCurrent = current.right.left;
+					while (subCurrent.left != null) {
+						rightTotalLength += subCurrent.leftLength;
+						subCurrent = subCurrent.left;
+					}
+					subCurrent = current.right.left;
+					while (subCurrent.right != null) {
+						rightTotalLength += subCurrent.rightLength;
+						subCurrent = subCurrent.right;
+					}
+					current.rightLength = rightTotalLength + 2;
 				} else {
 					current.rightLength = current.right.leftLength + 1;
 				}
+			}
+			if (current == "+" && current.left == "12" &&current.right == "+") {
+				console.log(current.leftLength, current.rightLength)
 			}
 		}
 		this.height = maxLevel;
