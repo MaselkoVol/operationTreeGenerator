@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Tree Creation</title>
+	<link rel="stylesheet" href="style.css">
+	<link rel="preconnect" href="https://fonts.googleapis.com">
+	<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+	<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+	<script type="module" src="script.js"></script>
+</head>
+
+<body>
+	<div class="container">
+		<div class="text">
+			<h1 class="title">Hallo! It's a program that transforms math expression to binary tree</h1>
+		</div>
+		<form action="" id="expression" class="expression">
+			<label for="expression-field" class="expression__label">expression:</label>
+			<input id="expression-field" type="text" class="expression__field">
+			<input type="submit" class="expression__submit" value="Create tree">
+		</form>
+		<div class="area">
+			<div class="area__content">
+				<canvas id="canvas" class="canvas"></canvas>
+			</div>
+			<div class="navigation">
+				<span class="plus">+</span>
+				<span class="minus">-</span>
+				<span class="fullscreen">⛶</span>
+			</div>
+		</div>
+		<h2 class="author">Created by Volodymyr Maselko</h2>
+	</div>
+</body>
+
+</html>

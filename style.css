@@ -1,0 +1,157 @@
+
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: 'Roboto', sans-serif;
+}
+._locked {
+	overflow: hidden;
+}
+body._locked::before {
+	content: "";
+	position: fixed;
+	top: 0;
+	left: 0;
+	display: block;
+	width: 100%;
+	height: 100%;
+	background-color: gray;
+	z-index: 100;
+}
+
+body {
+	background-color: rgb(244, 253, 244);
+	padding: 10px;
+}
+.container {
+	max-width: 1100px;
+	margin: 0 auto;
+	background-color: white;
+	padding: 10px;
+	border-radius: 10px;
+	border: 2px solid lightgray;
+}
+
+.text {
+	width: 100%;
+	text-align: center;
+	padding: 1rem 2rem;
+	border-radius: 10px;
+	background-color: rgb(127, 190, 211);
+	margin: 0 auto;
+	color: white;
+}
+.title {
+	font-size: 1.8rem;
+}
+.expression {
+	margin-top: 6rem;
+	margin-bottom: 1rem;
+	font-size: 1.5rem;
+	display: flex;
+}
+.expression__field {
+	padding: 0 .2rem;
+	font-size: 1rem;
+	display: block;
+	margin-left: .2rem;
+	margin-right: .2rem;
+	border-radius: .3rem;
+	width: 50%;
+	border: 2px solid lightgray;
+	color: rgb(56, 55, 55);
+}
+
+.expression__label {
+	color: lightcoral;
+}
+
+.expression__submit {
+	cursor: pointer;
+	display: block;
+	border: none;
+	border-left: .5em solid lightcoral;
+	border-right: .5em solid lightcoral;
+	background-color: lightcoral;
+	color: white;
+	font-size: 1rem;
+	border-radius: .3rem;
+	padding: .1rem .2rem;
+}
+.expression__submit:active {
+	color: yellow;
+}
+.area {
+	position: relative;
+	width: 100%;
+	padding-bottom: 50%;
+}
+._area__fullscreen {
+	border-radius: 0;
+	position: fixed;
+	left: 50%;
+	top: 50%;
+	transform: translate(-50%, -50%);
+	z-index: 150;
+}
+.area__content {
+	display: block;
+	position: absolute;
+	top: 0;
+	left: 0;
+	width: 100%;
+	height: 100%;
+	border-radius: 10px;
+	background-color: white;
+	border: 2px solid lightgray;
+	overflow:auto;
+}
+._area__content__fullscreen {
+	border-radius: 0;
+	border: none;
+}
+.canvas {
+	display: block;
+	width: 100%;
+	height: 100%;
+}
+.navigation {
+	user-select: none;
+	cursor: pointer;
+	position:absolute;
+	bottom: 1rem;
+	right: 1rem;
+	z-index: 100;
+	color: white;
+	display: flex;
+}
+.navigation span {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background-color: lightblue;
+	border-radius: 4px;
+	font-size: 2.5rem;
+	width: 3rem;
+	height: 3rem;
+	margin-left: 1rem;
+	opacity: 0.8;
+}
+.navigation span:first-of-type {
+	margin-left: 0;
+}
+.navigation span:active {
+	color: yellow;
+}
+.author {
+	margin-top: 0.5rem;
+	font-size: .9rem;
+}
+
+@media (max-width: 768px) {
+	html {
+		font-size: 0.7rem;
+	}
+}
