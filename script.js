@@ -82,15 +82,6 @@ let canvas = document.getElementById("canvas");
 
 // creating operation tree
 let operationTree = new OperationTree();
-operationTree.add("*");
-operationTree.add("-");
-operationTree.add("+");
-operationTree.add("~");
-operationTree.add("1");
-operationTree.add("12");
-operationTree.add("123");
-operationTree.add("3.14153251354");
-
 if (expression != null) {
 	for (let i = 0; i < expression.length; i++) {
 		operationTree.add(expression[i]);
