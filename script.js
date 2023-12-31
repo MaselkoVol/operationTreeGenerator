@@ -1,28 +1,7 @@
+import OperationManager from "./operationManager.js";
 import OperationTree from "./operationTree.js";
 import Stack from "./stack.js";
-
-let operators = {
-	plus: "+",
-	minus: "-",
-	divide: "/",
-	multiply: "*",
-	unaryMinus: "~",
-	power: "^",
-	root: "√",
-}
 // finding parameters
-const myKeysValues = window.location.search;
-const urlParams = new URLSearchParams(myKeysValues);
-let field = urlParams.get("field");
-let expression = null;
-if (field != null) {
-	expression = field.split(" ");
-	for (let i = 0; i < expression.length; i++) {
-		if (operators[expression[i]] != undefined)
-			expression[i] = operators[expression[i]];
-	}
-}
-
 
 let fullScreenButton = document.querySelector(".fullscreen");
 let areaContainer = document.querySelector(".area");
@@ -67,49 +46,38 @@ function forAreaMoreThanTwoToOne() {
 	areaContainer.style.paddingBottom = 0;
 }
 
-let expressionField = document.getElementById("expression-field");
-let expressionForm = document.getElementById("expression");
-
-expressionForm.addEventListener("submit", function (event) {
-	event.preventDefault();
-	let field = expressionField.value;
-})
-
-
 let plusButton = document.querySelector(".plus");
 let minusButton = document.querySelector(".minus");
 let canvas = document.getElementById("canvas");
 
-// creating operation tree
-let operationTree = new OperationTree();
-if (expression != null) {
-	for (let i = 0; i < expression.length; i++) {
-		operationTree.add(expression[i]);
-	}
-}
+
 canvas.width = 2000;
 canvas.height = canvas.width / 2;
-let minSize = 100;
-let size;
-let borderSize = 50;
-if (canvas.width / (operationTree.width + 1) > canvas.height / operationTree.height) {
-	size = canvas.height / operationTree.height;
-	if (size < minSize) {
-		canvas.height = minSize / size * canvas.height;
-		canvas.width = canvas.height * 2;
-		size = minSize;
+
+function resizeCanvas(operationTree) {
+	let minSize = 100;
+	let size;
+	let borderSize = 50;
+	if (canvas.width / (operationTree.width + 1) > canvas.height / operationTree.height) {
+		size = canvas.height / operationTree.height;
+		if (size < minSize) {
+			canvas.height = minSize / size * canvas.height;
+			canvas.width = canvas.height * 2;
+			size = minSize;
+		}
+		size -= canvas.width / operationTree.height / borderSize;
+	} else {
+		size = canvas.width / (operationTree.width + 1);
+		if (size < minSize) {
+			canvas.width = minSize / size * canvas.width;
+			canvas.height = canvas.width / 2;
+			size = minSize;
+		}
+		size -= canvas.width / operationTree.width / borderSize;
 	}
-	size -= canvas.width / operationTree.height / borderSize;
-} else {
-	size = canvas.width / (operationTree.width + 1);
-	if (size < minSize) {
-		canvas.width = minSize / size * canvas.width;
-		canvas.height = canvas.width / 2;
-		size = minSize;
-	}
-	size -= canvas.width / operationTree.width / borderSize;
+	console.log(canvas.width, canvas.height);
+	return size;
 }
-console.log(canvas.width, canvas.height);
 let ctx = canvas.getContext("2d");
 
 
@@ -143,6 +111,19 @@ minusButton.addEventListener("click", function () {
 	area.scrollTop -= initYpos * (1 - canvas.clientHeight / initHeight);
 })
 
+function createTreeFromExpression(expression) {
+	if (expression == null || expression == "")
+		return null;
+	let operationManager = new OperationManager(expression);
+	let polish = operationManager.convertToPolish();
+	let operationTree = new OperationTree();
+	while (!polish.isEmpty()) {
+		operationTree.add(polish.pop());
+	}
+	let size = resizeCanvas(operationTree);
+	ctx.clearRect(0, 0, canvas.width, canvas.height);
+	drawTree(operationTree, size);
+}
 
 function drawElement(x, y, size, text) {
 	ctx.fillStyle = "black";
@@ -174,32 +155,56 @@ function drawElement(x, y, size, text) {
 }
 
 // drawing tree
-ctx.lineWidth = size / 20;
-let stack = new Stack();
-operationTree.root.x = canvas.width / 2 - operationTree.width * size / 2 + size * operationTree.leftWidth;
-operationTree.root.y = canvas.height / 2 - size * (operationTree.height - 1) / 2;
-stack.push(operationTree.root);
-let current = null;
-while (!stack.isEmpty()) {
-	current = stack.pop();
-	if (current.right != null) {
-		current.right.x = current.x + current.rightLength * size;
-		current.right.y = current.y + size;
-		stack.push(current.right);
-		ctx.beginPath();
-		ctx.moveTo(current.x, current.y);
-		ctx.lineTo(current.right.x, current.right.y);
-		ctx.stroke();
+function drawTree(operationTree, size) {
+	ctx.lineWidth = size / 20;
+	let stack = new Stack();
+	operationTree.root.x = canvas.width / 2 - operationTree.width * size / 2 + size * operationTree.leftWidth;
+	operationTree.root.y = canvas.height / 2 - size * (operationTree.height - 1) / 2;
+	stack.push(operationTree.root);
+	let current = null;
+	while (!stack.isEmpty()) {
+		current = stack.pop();
+		if (current.right != null) {
+			current.right.x = current.x + current.rightLength * size;
+			current.right.y = current.y + size;
+			stack.push(current.right);
+			ctx.beginPath();
+			ctx.moveTo(current.x, current.y);
+			ctx.lineTo(current.right.x, current.right.y);
+			ctx.stroke();
+		}
+		if (current.left != null) {
+			current.left.x = current.x - current.leftLength * size;
+			current.left.y = current.y + size;
+			stack.push(current.left);
+			ctx.beginPath();
+			ctx.moveTo(current.x, current.y);
+			ctx.lineTo(current.left.x, current.left.y);
+			ctx.stroke();
+		}
+		drawElement(current.x, current.y, size / 2, current.value);
 	}
-	if (current.left != null) {
-		current.left.x = current.x - current.leftLength * size;
-		current.left.y = current.y + size;
-		stack.push(current.left);
-		ctx.beginPath();
-		ctx.moveTo(current.x, current.y);
-		ctx.lineTo(current.left.x, current.left.y);
-		ctx.stroke();
-	}
-	drawElement(current.x, current.y, size / 2, current.value);
 }
+
+function deleteSpaces(str) {
+	let res = "";
+	for (let i = 0; i < str.length; i++) {
+		if (str[i] != " ")
+			res += str[i];
+	}
+	return res;
+}
+
+let expressionField = document.getElementById("expression-field");
+let expressionForm = document.getElementById("expression");
+
+expressionForm.addEventListener("submit", function (event) {
+	let expression = deleteSpaces(expressionField.value);
+	event.preventDefault();
+	createTreeFromExpression(expression);
+})
+expressionField.addEventListener("input", function () {
+	let expression = deleteSpaces(expressionField.value);
+	createTreeFromExpression(expression);
+});
 

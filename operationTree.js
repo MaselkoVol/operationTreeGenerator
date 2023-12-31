@@ -140,7 +140,7 @@ class OperationTree {
 					}
 					current.leftLength = leftTotalLength + 2;
 				} else {
-					current.leftLength = current.left.rightLength + 1;
+					current.leftLength = 1;
 				}
 			}
 			if (current.right != null) {
@@ -158,11 +158,8 @@ class OperationTree {
 					}
 					current.rightLength = rightTotalLength + 2;
 				} else {
-					current.rightLength = current.right.leftLength + 1;
+					current.rightLength = 1;
 				}
-			}
-			if (current == "+" && current.left == "12" &&current.right == "+") {
-				console.log(current.leftLength, current.rightLength)
 			}
 		}
 		this.height = maxLevel;
@@ -180,26 +177,6 @@ class OperationTree {
 			current = current.right;
 		}
 		this.width = maxWidth;
-	}
-	setElementsPosition(size) {
-		let stack = new Stack();
-		operationTree.root.x = canvas.width / 2;
-		operationTree.root.y = canvas.height / 2 - operationTree.height * size / 2;
-		stack.push(operationTree.root);
-		let current = null;
-		while (!stack.isEmpty()) {
-			current = stack.pop();
-			if (current.right != null) {
-				current.right.x = current.x + current.rightLength * size;
-				current.right.y = current.y + size;
-				stack.push(current.right);
-			}
-			if (current.left != null) {
-				current.left.x = current.x + current.leftLength * size;
-				current.left.y = current.y + size;
-				stack.push(current.left);
-			}
-		}
 	}
 }
 
