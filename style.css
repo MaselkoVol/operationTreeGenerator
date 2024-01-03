@@ -145,10 +145,6 @@ body {
 .navigation span:active {
 	color: yellow;
 }
-.author {
-	margin-top: 0.5rem;
-	font-size: .9rem;
-}
 
 @media (max-width: 768px) {
 	html {
