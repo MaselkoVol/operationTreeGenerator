@@ -9,7 +9,6 @@ let Operators = {
 	MULTIPLY: "*",
 	DIVIDE: "/",
 	DOT: ".",
-	EQUAL: "=",
 	LEFT_PARENTHESIS: "(",
 	RIGHT_PARENTHESIS: ")",
 	get SIGNIFICANCE() {
