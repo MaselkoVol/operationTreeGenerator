@@ -6,15 +6,8 @@ const operators = unaryOperators.concat(binaryOperators);
 
 const digits = ["0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "."]
 function isNumber(str) {
-	str = str.trim();
-	if (str[0] == "π" && str.length == 1)
-		return true;
-	if (str[0] == "e" && str.length == 1)
-		return true;
-	for (let i = 0; i < str.length; i++) {
-		if (!digits.includes(str[i]))
-			return false;
-	}
+	if (str == "√" || str == "~" || str == "+" || str == "-" || str == "*" || str == "/" || str == "^")
+		return false;
 	return true;
 }
 
