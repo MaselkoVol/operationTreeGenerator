@@ -66,7 +66,7 @@ class OperationManager {
 		let pos = i;
 		let parenthesisCounter = 1;
 
-		while (parenthesisCounter !== 0 && i >= 0) {
+		while (parenthesisCounter !== 0 && i > 0) {
 			i--;
 
 			if (expression.slice(i, i + 1) === Operators.RIGHT_PARENTHESIS) {
