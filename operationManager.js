@@ -64,12 +64,8 @@ class OperationManager {
 
 	findEndOfRightParenthesis(expression, i) {
 		let parenthesisCounter = 1;
-<<<<<<< HEAD
-		while (parenthesisCounter !== 0 && i >= 0) {
-=======
 
 		while (parenthesisCounter !== 0 && i > 0) {
->>>>>>> ee59750be149d068cb5cc4457b8648979fbb109f
 			i--;
 
 			if (expression.slice(i, i + 1) === Operators.RIGHT_PARENTHESIS) {
