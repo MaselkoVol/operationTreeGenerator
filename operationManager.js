@@ -63,9 +63,7 @@ class OperationManager {
 	}
 
 	findEndOfRightParenthesis(expression, i) {
-		let pos = i;
 		let parenthesisCounter = 1;
-
 		while (parenthesisCounter !== 0 && i >= 0) {
 			i--;
 
@@ -74,11 +72,8 @@ class OperationManager {
 			} else if (expression.slice(i, i + 1) === Operators.LEFT_PARENTHESIS) {
 				parenthesisCounter--;
 			}
-
-			pos = i;
 		}
-
-		return pos;
+		return i;
 	}
 
 	getOperatorSignificance(expression) {
@@ -103,7 +98,7 @@ class OperationManager {
 			if (curChar === Operators.RIGHT_PARENTHESIS) {
 				let parenthesisCounter = 1;
 
-				while (parenthesisCounter !== 0) {
+				while (parenthesisCounter !== 0 && i >= 0) {
 					i--;
 
 					if (expression.slice(i, i + 1) === Operators.RIGHT_PARENTHESIS) {
